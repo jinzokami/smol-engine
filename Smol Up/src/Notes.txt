@@ -1,0 +1,32 @@
+Animation System:
+#Have support for overriding animations per bone (so you can have a running animation and an aiming animation fire at the same time.)
+Structs:
+
+Animation - (AnimationData* animData, Orientation* startingOrientations, float timer = 0) #Maybe support blending between two animations (or animate the transition ourselves)
+#Animation (Blending support) - (AnimationData* animData, Animation* previousAnim, float transDuration, Animation* blendingAnim = new Animation()) #blending anim is generated on anim creation if it exists it plays before anim
+Animation Data - (Orientation start, Orientation end, Bone* bone, float startTime, float duration)
+Orientation (Rotor) - (float scalar, Bivector bivector)
+Bone - (Orientation localOrient, Orientation globalOrient, Bone* parent, Bone** children)
+
+Methods:
+
+Animation -
+	play() - plays the animation, if paused resumes, if stopped restarts, if playing resets(? or just keeps going?). if a transition is playing plays that until it finishes no matter what.
+	pause() - pauses the animation.
+	stop() - stops the animation, if playing also resets, if paused then just resets
+	reset() - resets the animation, if playing continues playing.
+	seek(float time) - sets the animation timer, like reset, but more powerful.
+	isLooping() - returns whether the animation loops
+	setLooping(bool looping) - sets whether the animation loops
+	onFinish(function action) - sets the action to take when the animation finishes playing (play another animation, make someone else play an animation, bring up a menu, you know, whatever)
+
+	Specifics: Starting from some root bone, calculate the Orientation by blending between the start and end orientation depending on an alpha value dictated by clamp((current time - start time)/duration, 0, 1)
+		whenever the alpha value is 1 fire off the finish action and reset timer to 0 (or subtract duration from timer to get the spot in the animation it needs to be in)
+		Animation Data will be sorted from earliest start to latest start, the orientation of the bone will be decided by the Animation Data with the latest start time BEFORE the timer value
+		every bone child will have its parent bones orientation added on to it, this will be the final orientation for the bone. ALL BONES MUST BE ACCESSIBLE FROM AT LEAST A ROOT BONE.
+
+Animation Data -
+	Specifics: no associated methods since these are meant to be interpreted by the animation. These will be output to binary files by an animation editor program.
+
+Bone - 
+	Specifics: these will have no associated methods since these are meant to be interpreted by the renderer. Animated Models will attach (reference) Bones to each sub-Model, each sub-Model's Bone will then be attached to Animation Data

@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs
+/bin/Debug-windows-x86_64/Smol Up
+/bin-int/Debug-windows-x86_64/Smol Up
+/Smol Up/x64
+/vendor/bin/premake
+/x64/Release
+/premake5.lua
