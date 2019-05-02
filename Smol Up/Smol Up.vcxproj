@@ -133,34 +133,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Camera.hpp" />
-    <ClInclude Include="src\Event.hpp" />
-    <ClInclude Include="src\Lulz.hpp" />
-    <ClInclude Include="src\Mesh.hpp" />
-    <ClInclude Include="src\Position.hpp" />
-    <ClInclude Include="src\RenderUtil.hpp" />
-    <ClInclude Include="src\Rotation.hpp" />
-    <ClInclude Include="src\Shader.hpp" />
-    <ClInclude Include="src\Texture.hpp" />
-    <ClInclude Include="src\Transform.hpp" />
+    <ClInclude Include="src\includes.hpp" />
+    <ClInclude Include="src\Math\Rotor.hpp" />
+    <ClInclude Include="src\Render\Camera.hpp" />
+    <ClInclude Include="src\Render\Mesh.hpp" />
+    <ClInclude Include="src\Math\Position.hpp" />
+    <ClInclude Include="src\Render\RenderUtil.hpp" />
+    <ClInclude Include="src\Math\Rotation.hpp" />
+    <ClInclude Include="src\Render\Shader.hpp" />
+    <ClInclude Include="src\Render\Texture.hpp" />
+    <ClInclude Include="src\Math\Transform.hpp" />
     <ClInclude Include="src\Util.hpp" />
+    <ClInclude Include="src\Render\VertexLayout.hpp" />
     <ClInclude Include="src\Window.hpp" />
-    <ClInclude Include="src\glad.h" />
-    <ClInclude Include="src\khrplatform.h" />
+    <ClInclude Include="src\GL\glad.h" />
+    <ClInclude Include="src\GL\khrplatform.h" />
     <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Render\VertexArray.hpp" />
+    <ClInclude Include="src\Render\VertexBuffer.hpp" />
+    <ClInclude Include="src\Math\Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\Lulz.cpp" />
-    <ClCompile Include="src\Mesh.cpp" />
-    <ClCompile Include="src\Position.cpp" />
-    <ClCompile Include="src\Rotation.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Texture.cpp" />
-    <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\Math\Rotor.cpp" />
+    <ClCompile Include="src\Render\Camera.cpp" />
+    <ClCompile Include="src\Render\Mesh.cpp" />
+    <ClCompile Include="src\Math\Position.cpp" />
+    <ClCompile Include="src\Math\Rotation.cpp" />
+    <ClCompile Include="src\Render\Shader.cpp" />
+    <ClCompile Include="src\Render\Texture.cpp" />
+    <ClCompile Include="src\Math\Transform.cpp" />
+    <ClCompile Include="src\Render\VertexLayout.cpp" />
     <ClCompile Include="src\Window.cpp" />
-    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\GL\glad.c" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Render\VertexArray.cpp" />
+    <ClCompile Include="src\Render\VertexBuffer.cpp" />
+    <ClCompile Include="src\Math\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Notes.txt" />

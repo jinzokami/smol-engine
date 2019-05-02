@@ -30,3 +30,22 @@ Animation Data -
 
 Bone - 
 	Specifics: these will have no associated methods since these are meant to be interpreted by the renderer. Animated Models will attach (reference) Bones to each sub-Model, each sub-Model's Bone will then be attached to Animation Data
+
+
+Shaders:
+Standard uniforms (supported by all shaders by default) will include:
+ mouse position
+ a global timer (runs from program start)
+ a local timer (runs from shader init)
+ light positions in the scene
+ light colors in the scene
+ direction of "sunlight"
+ color of "sunlight"
+ color of ambient light
+ intensity of ambient light
+
+Shader manager
+ only one instance of a shader needs to exist on the gpu at any point.
+ a shader manager will keep track of compiled shaders and avoid recompilation of already extant shaders.
+ underlying structure is an unordered_map, the key is the file name of the shader files, without directory or file extension: for example, "basic" instead of "res/basic.vert" and "res/basic.frag"
+ shader files will then have to share filenames and the only distinguishing feature between them would be file extensions: "vert", "frag", "geom", "tess", "comp"

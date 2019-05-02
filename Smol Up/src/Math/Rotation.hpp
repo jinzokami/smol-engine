@@ -1,7 +1,7 @@
 #include <GLM\glm.hpp>
 #include <GLM\gtc\matrix_transform.hpp>
 
-#include "Util.hpp"
+#include "../Util.hpp"
 
 class Rotation
 {

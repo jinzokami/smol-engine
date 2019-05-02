@@ -1,5 +1,33 @@
 #include "Shader.hpp"
 
+Shader::Shader()
+{
+	GLuint vertex = load_shader("res/basic.vert", GL_VERTEX_SHADER);
+	GLuint fragment = load_shader("res/basic.frag", GL_FRAGMENT_SHADER);
+
+	program = glCreateProgram();
+	glAttachShader(program, vertex);
+	glAttachShader(program, fragment);
+	glLinkProgram(program);
+
+	GLint isLinked = 0;
+	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+	if (isLinked == GL_FALSE)
+	{
+		GLint maxLength = 0;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+
+		// The maxLength includes the NULL character
+		char infoLog[512];
+		glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+		// The program is useless now. So delete it.
+		glDeleteProgram(program);
+
+		printf("%s", infoLog);
+	}
+}
+
 Shader::Shader(const char * vert_path, const char* frag_path)
 {
 	GLuint vertex = load_shader(vert_path, GL_VERTEX_SHADER);

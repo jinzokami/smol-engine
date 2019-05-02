@@ -2,12 +2,12 @@
 
 #include <GLM\glm.hpp>
 
-#include "glad.h"
 #include "RenderUtil.hpp"
 
 class Shader
 {
 public:
+	Shader();
 	Shader(const char * vert_path, const char* frag_path);
 	~Shader();
 
@@ -16,8 +16,6 @@ public:
 
 	void attach(GLuint shader);
 	void link();
-
-	
 
 	void uniform(const char * uni, float x);
 	void uniform(const char * uni, float x, float y);
@@ -28,7 +26,7 @@ public:
 protected:
 
 private:
-	GLuint program;
+	GLuint program = 0;
 
 	void uniform(int location, float x);
 	void uniform(int location, float x, float y);

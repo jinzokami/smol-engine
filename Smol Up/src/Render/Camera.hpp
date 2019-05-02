@@ -1,5 +1,5 @@
-#include "Util.hpp"
-#include "Transform.hpp"
+#include "../Util.hpp"
+#include "../Math/Transform.hpp"
 
 //wraps a Transform. may have extra functionality later.
 class Camera

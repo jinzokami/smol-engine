@@ -5,9 +5,9 @@
 #include <fstream>
 #include <sstream>
 
-#include "glad.h"
+#include "../GL/glad.h"
 
-#include "Util.hpp"
+#include "../Util.hpp"
 
 struct Vec2
 {
@@ -134,10 +134,11 @@ inline Image load_image(const char * path)
 */
 inline void gl_errors()
 {
-	GLenum err = glGetError();
+	GLenum err = GL_NO_ERROR;
 
 	do
 	{
+		err = glGetError();
 		switch (err)
 		{
 		case GL_NO_ERROR:
@@ -150,7 +151,6 @@ inline void gl_errors()
 			printf("Unhandled Error Code: %d\n", err);
 			break;
 		}
-		err = glGetError();
 	} while (err != GL_NO_ERROR);
 }
 
@@ -162,14 +162,14 @@ struct Face
 };
 
 //NOTE: exclusively for use with .obj files
-inline std::vector<Vert> load_verts_from_file(const char* path)
+inline std::vector<Vert>* load_verts_from_file(const char* path)
 {
 	std::vector<Vec3> verts;
 	std::vector<Vec2> uvs;
 	std::vector<Vec3> normals;
 	std::vector<Face> faces;
 
-	std::vector<Vert> out_verts;
+	std::vector<Vert>* out_verts = new std::vector<Vert>();
 
 	//TODO: parse each line of the file.
 	//depending on the first 1-2 chars the line represents something different.
@@ -278,19 +278,19 @@ inline std::vector<Vert> load_verts_from_file(const char* path)
 
 	for (int i = 0; i < faces.size(); i++)
 	{
-		out_verts.push_back({ 
+		out_verts->push_back({ 
 			{verts[faces[i].vert[0]].x, verts[faces[i].vert[0]].y, verts[faces[i].vert[0]].z}, 
 			{uvs[faces[i].uv[0]].x, uvs[faces[i].uv[0]].y}, 
 			{normals[faces[i].normal[0]].x, normals[faces[i].normal[0]].y, normals[faces[i].normal[0]].z}
 			});
 
-		out_verts.push_back({
+		out_verts->push_back({
 			{verts[faces[i].vert[1]].x, verts[faces[i].vert[1]].y, verts[faces[i].vert[1]].z},
 			{uvs[faces[i].uv[1]].x, uvs[faces[i].uv[1]].y},
 			{normals[faces[i].normal[1]].x, normals[faces[i].normal[1]].y, normals[faces[i].normal[1]].z}
 			});
 
-		out_verts.push_back({
+		out_verts->push_back({
 			{verts[faces[i].vert[2]].x, verts[faces[i].vert[2]].y, verts[faces[i].vert[2]].z},
 			{uvs[faces[i].uv[2]].x, uvs[faces[i].uv[2]].y},
 			{normals[faces[i].normal[2]].x, normals[faces[i].normal[2]].y, normals[faces[i].normal[2]].z}

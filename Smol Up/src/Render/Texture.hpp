@@ -1,4 +1,4 @@
-#include "stb_image.h"
+#include "../stb_image.h"
 
 #include "RenderUtil.hpp"
 
@@ -19,7 +19,7 @@ public:
 	void set_pixel(u32 x, u32 y, u8 r, u8 g, u8 b);
 
 	Image image;
-	GLuint id;
+	GLuint id = 0;
 protected:
 private:
 };

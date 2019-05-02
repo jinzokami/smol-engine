@@ -1,37 +1,13 @@
-#include <cstdio>
-#include <iostream>
-#include <chrono>
-
-#define STB_IMAGE_IMPLEMENTATION
-
-#include "Util.hpp"
-#include "RenderUtil.hpp"
-
-#include <GLFW/glfw3.h>
-
-#include <GLM/glm.hpp>
-#include <GLM/gtc/matrix_transform.hpp>
-
-#include "Window.hpp"
-#include "Mesh.hpp"
-#include "Shader.hpp"
-#include "Texture.hpp"
-#include "Camera.hpp"
-
-#include "Lulz.hpp"
+#include "includes.hpp"
 
 static const float TICK_LENGTH = 1.0f / 100.0f;
-
-static bool wireframe = false;
 
 void error_callback(int error, const char* desc)
 {
 	fprintf(stderr, "Error: %s\n", desc);
 }
 
-/*
-TODO: Models seem to load but are not rendering.
-*/
+//Note: Mesh object broken from vbo bind call?
 int main()
 {
 	glfwSetErrorCallback(error_callback);
@@ -43,35 +19,28 @@ int main()
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	glEnable(GL_DEPTH_TEST);
-	
-	GLuint vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+
+	VertexArray vao;
+
+	std::vector<Vert>* buffer = load_verts_from_file("res/spr.obj");//{ {{1, 0, 0}, {1, 0}, {0, 1, 0}}, {{0, 1, 0}, {0, 1}, {0, 1, 0}}, {{1, 1, 0}, {1, 1}, {0, 1, 0}} };
+
+	VertexBuffer vbo(*buffer);
+	vbo.bind();
+
+	std::vector<int> layout = { 3, 2, 3 };
+	VertexLayout vl(layout);
 
 	Shader shader("res/basic.vert", "res/basic.frag");
 	shader.bind();
 
-	std::vector<Vert> buffer = load_verts_from_file("res/spr.obj");
-	Mesh mesh(buffer);
-	mesh.upload();
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vert), 0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vert), (const void *)sizeof(Vec3));
-	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vert), (const void *)(sizeof(Vec3) + sizeof(Vec2)));
-	glEnableVertexAttribArray(2);
-
+	//Mesh mesh(buffer, layout, shader);
+	
 	glm::mat4 model(1.0f);
 	glm::mat4 projection = glm::perspective(45.0f, 640.0f/480.0f, 0.1f, 1000.0f);
 	
-	Texture texture("res/sprtex.png");
+	Texture texture("res/planet.png");
 	texture.bind();
 	
-	gl_errors();
-
 	auto now = std::chrono::steady_clock::now();
 	auto then = now;
 	float elapsed = std::chrono::duration_cast<std::chrono::duration<float>>(now - then).count();
@@ -83,6 +52,7 @@ int main()
 
 	glClearColor(0.5f, 0.5f, 0.5f, 1);
 
+	gl_errors();
 	while (!window.should_close())
 	{
 		then = now;
@@ -107,11 +77,16 @@ int main()
 		shader.uniform("view", camera.get_matrix(), false);
 		shader.uniform("projection", projection, false);
 
-		mesh.render();
+		//mesh.bind();
+		//mesh.render();
+		//mesh.unbind();
+		glDrawArrays(GL_TRIANGLES, 0, buffer->size());
 
 		window.show();
 
 		glfwPollEvents();
+
+		gl_errors();
 	}
 
 	glfwTerminate();
