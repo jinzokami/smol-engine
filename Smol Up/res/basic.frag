@@ -1,9 +1,9 @@
-#version 450
+#version 330
 
 in vec2 uv_frag;
 in vec3 normal_frag;
 
-layout(location = 0) out vec4 color;
+out vec4 color;
 
 uniform vec3 col;
 

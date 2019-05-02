@@ -1,8 +1,8 @@
-#version 450
+#version 330
 
-layout(location = 0) in vec3 position_vert;
-layout(location = 1) in vec2 uv_vert;
-layout(location = 2) in vec3 normal_vert;
+in vec3 position_vert;
+in vec2 uv_vert;
+in vec3 normal_vert;
 
 out vec2 uv_frag;
 out vec3 normal_frag;

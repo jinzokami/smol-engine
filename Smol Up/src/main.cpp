@@ -8,13 +8,17 @@ void error_callback(int error, const char* desc)
 }
 
 //Note: Mesh object broken from vbo bind call?
+//Note: shaders slightly altered since opengl was temporarily downgraded to 3.3
+//TODO: figure out why obj loading isn't working (probably stop trying to inline the load obj function)
+//TODO: add in keyboard input and polling
+//TODO: Start work on the entity system and figure out wha kind of game we'll make with this.
 int main()
 {
 	glfwSetErrorCallback(error_callback);
 	if (!glfwInit())
 		return -1;
 
-	Window window(640, 480, "window.");
+	Window window(1280, 720, "window.");
 
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
@@ -22,9 +26,9 @@ int main()
 
 	VertexArray vao;
 
-	std::vector<Vert>* buffer = load_verts_from_file("res/spr.obj");//{ {{1, 0, 0}, {1, 0}, {0, 1, 0}}, {{0, 1, 0}, {0, 1}, {0, 1, 0}}, {{1, 1, 0}, {1, 1}, {0, 1, 0}} };
+	std::vector<Vert> buffer = { {{0.5, -0.5, 0}, {1, 0}, {0, 1, 0}}, {{-0.5, 0.5, 0}, {0, 1}, {0, 1, 0}}, {{0.5, 0.5, 0}, {1, 1}, {0, 1, 0}} };//load_verts_from_file("res/spr.obj");
 
-	VertexBuffer vbo(*buffer);
+	VertexBuffer vbo(buffer);
 	vbo.bind();
 
 	std::vector<int> layout = { 3, 2, 3 };
@@ -80,7 +84,7 @@ int main()
 		//mesh.bind();
 		//mesh.render();
 		//mesh.unbind();
-		glDrawArrays(GL_TRIANGLES, 0, buffer->size());
+		glDrawArrays(GL_TRIANGLES, 0, buffer.size());
 
 		window.show();
 
