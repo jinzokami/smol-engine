@@ -159,6 +159,7 @@
     <ClCompile Include="src\Render\Mesh.cpp" />
     <ClCompile Include="src\Math\Position.cpp" />
     <ClCompile Include="src\Math\Rotation.cpp" />
+    <ClCompile Include="src\Render\RenderUtil.cpp" />
     <ClCompile Include="src\Render\Shader.cpp" />
     <ClCompile Include="src\Render\Texture.cpp" />
     <ClCompile Include="src\Math\Transform.cpp" />

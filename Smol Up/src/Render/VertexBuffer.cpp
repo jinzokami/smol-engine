@@ -21,7 +21,6 @@ VertexBuffer::~VertexBuffer()
 void VertexBuffer::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, id);
-	gl_errors();
 }
 
 void VertexBuffer::unbind()

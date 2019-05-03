@@ -9,7 +9,7 @@ void error_callback(int error, const char* desc)
 
 //Note: Mesh object broken from vbo bind call?
 //Note: shaders slightly altered since opengl was temporarily downgraded to 3.3
-//TODO: figure out why obj loading isn't working (probably stop trying to inline the load obj function)
+//TODO: figure out why obj loading isn't working
 //TODO: add in keyboard input and polling
 //TODO: Start work on the entity system and figure out wha kind of game we'll make with this.
 int main()
@@ -25,8 +25,8 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	VertexArray vao;
-
-	std::vector<Vert> buffer = { {{0.5, -0.5, 0}, {1, 0}, {0, 1, 0}}, {{-0.5, 0.5, 0}, {0, 1}, {0, 1, 0}}, {{0.5, 0.5, 0}, {1, 1}, {0, 1, 0}} };//load_verts_from_file("res/spr.obj");
+	//std::vector<Vert> buffer = load_verts_from_file("res/cub.obj");
+	std::vector<Vert> buffer = { {{0.5, -0.5, 0}, {1, 0}, {0, 1, 0}}, {{-0.5, 0.5, 0}, {0, 1}, {0, 1, 0}}, {{0.5, 0.5, 0}, {1, 1}, {0, 1, 0}} };
 
 	VertexBuffer vbo(buffer);
 	vbo.bind();
@@ -84,13 +84,14 @@ int main()
 		//mesh.bind();
 		//mesh.render();
 		//mesh.unbind();
+		vbo.unbind();
 		glDrawArrays(GL_TRIANGLES, 0, buffer.size());
 
 		window.show();
 
 		glfwPollEvents();
 
-		gl_errors();
+		//gl_errors();
 	}
 
 	glfwTerminate();
