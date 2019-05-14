@@ -162,6 +162,6 @@ struct Face
 };
 
 //NOTE: exclusively for use with .obj files
-std::vector<Vert> load_verts_from_file(const char* path);
-
+//std::vector<Vert> load_verts_from_file(const char* path);
+void parse_obj(const char* filename, std::vector<Vert> &buffer);
 //#pragma pack (4)

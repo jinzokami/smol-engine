@@ -8,8 +8,7 @@ void error_callback(int error, const char* desc)
 }
 
 //Note: Mesh object broken from vbo bind call?
-//Note: shaders slightly altered since opengl was temporarily downgraded to 3.3
-//TODO: figure out why obj loading isn't working
+//Note: .objs fixed!
 //TODO: add in keyboard input and polling
 //TODO: Start work on the entity system and figure out wha kind of game we'll make with this.
 int main()
@@ -25,8 +24,9 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	VertexArray vao;
-	//std::vector<Vert> buffer = load_verts_from_file("res/cub.obj");
-	std::vector<Vert> buffer = { {{0.5, -0.5, 0}, {1, 0}, {0, 1, 0}}, {{-0.5, 0.5, 0}, {0, 1}, {0, 1, 0}}, {{0.5, 0.5, 0}, {1, 1}, {0, 1, 0}} };
+
+	std::vector<Vert> buffer;
+	parse_obj("res/cub.obj", buffer);
 
 	VertexBuffer vbo(buffer);
 	vbo.bind();
@@ -40,7 +40,7 @@ int main()
 	//Mesh mesh(buffer, layout, shader);
 	
 	glm::mat4 model(1.0f);
-	glm::mat4 projection = glm::perspective(45.0f, 640.0f/480.0f, 0.1f, 1000.0f);
+	glm::mat4 projection = glm::perspective(45.0f, 1280.0f/720.0f, 0.1f, 1000.0f);
 	
 	Texture texture("res/planet.png");
 	texture.bind();
@@ -51,8 +51,8 @@ int main()
 	float timer = 0;
 	float tick_timer = 0;
 	
-	Camera camera(0, 0, -5, 0, 0, 0);
-	camera.translate(0, 0, 3);
+	Camera camera(0, 0, -10, 0, 0, 0);
+	//camera.translate(0, 0, 3);
 
 	glClearColor(0.5f, 0.5f, 0.5f, 1);
 

@@ -1,4 +1,4 @@
-#version 330
+#version 450
 
 in vec2 uv_frag;
 in vec3 normal_frag;
