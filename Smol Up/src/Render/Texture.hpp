@@ -1,18 +1,18 @@
-#include "../stb_image.h"
+#pragma once
 
 #include "RenderUtil.hpp"
 
-//TODO: add loading an error texture when textures do not exist.
 class Texture
 {
 public:
+	Texture();
 	Texture(Image img);
 	Texture(const char* path);
 	~Texture();
 
 	void upload();
 
-	void bind();
+	void bind(int slot);
 	void unbind();
 
 	Pixel get_pixel(u32 x, u32 y);
@@ -22,4 +22,9 @@ public:
 	GLuint id = 0;
 protected:
 private:
+	//these exist so i don't have to rewrite default constructor
+	void construct(Image img);
+	void construct(const char* path);
+
+	int bound_slot = -1;
 };

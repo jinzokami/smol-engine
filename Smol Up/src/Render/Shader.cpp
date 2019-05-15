@@ -2,8 +2,8 @@
 
 Shader::Shader()
 {
-	GLuint vertex = load_shader("res/basic.vert", GL_VERTEX_SHADER);
-	GLuint fragment = load_shader("res/basic.frag", GL_FRAGMENT_SHADER);
+	GLuint vertex = load_shader("res/shader/basic.vert", GL_VERTEX_SHADER);
+	GLuint fragment = load_shader("res/shader/basic.frag", GL_FRAGMENT_SHADER);
 
 	program = glCreateProgram();
 	glAttachShader(program, vertex);

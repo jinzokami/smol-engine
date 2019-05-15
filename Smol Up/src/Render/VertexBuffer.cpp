@@ -33,6 +33,11 @@ void VertexBuffer::upload()
 	if (id != 0) 
 	{
 		bind();
+		if (data.size() == 0)
+		{
+			printf("VBO has no data.\n");
+			return;
+		}
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vert)*data.size(), &data[0], GL_STATIC_DRAW);
 		unbind();
 	}

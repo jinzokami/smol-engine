@@ -27,17 +27,22 @@ inline char* load_ascii(const char* path)
 
 	FILE * file;
 	fopen_s(&file, path, "rb");
+	if (file == NULL)
+	{
+		printf("Error: File \"%s\" not loaded, doesn't exist.\n", path);
+		return NULL;
+	}
 
 	fseek(file, 0, SEEK_END);
 	long size = ftell(file);
 	fseek(file, 0, SEEK_SET);
 
-	printf("File Name is: %s\nFile Size is: %d\n\n", path, size);
+	printf("File Loaded: \"%s\"\nFile Size is: %d\n\n", path, size);
 
 	str = new char[size + 1];
 	fread((void *)str, 1, size, file);
 	str[size] = 0;
-	printf("%s\n\n", str);
+	//printf("%s\n\n", str);
 
 	return str;
 }

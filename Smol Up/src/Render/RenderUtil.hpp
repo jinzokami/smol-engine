@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../stb_image.h"
+
 #include <stdio.h>
 #include <iostream>
 #include <fstream>

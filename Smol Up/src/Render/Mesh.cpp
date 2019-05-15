@@ -1,11 +1,23 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh(std::vector<Vert> verts, std::vector<int> layout, Shader shader)
+Mesh::Mesh()
 {
-	vbo = VertexBuffer(verts);
+}
+
+Mesh::Mesh(std::vector<Vert> buffer, VertexLayout layout)
+{
+	this->buffer = buffer;
+	this->layout = layout;
+
+	vao = VertexArray();
+	vao.bind();
+	
+
+	vbo = VertexBuffer(this->buffer);
 	vbo.bind();
-	this->layout = VertexLayout(layout);
-	this->shader = shader;
+	
+
+	this->layout.bind();
 }
 
 Mesh::~Mesh()
@@ -17,7 +29,6 @@ void Mesh::bind()
 	vao.bind();
 	vbo.bind();
 	layout.bind();
-	shader.bind();
 }
 
 void Mesh::unbind()
@@ -25,21 +36,11 @@ void Mesh::unbind()
 	vao.unbind();
 	vbo.unbind();
 	layout.unbind();
-	shader.unbind();
 }
 
 void Mesh::upload()
 {
+	bind();
 	vbo.upload();
-}
-
-//maybe this should be when the shader gets uniforms uploaded?
-void Mesh::render()
-{
-	glDrawArrays(GL_TRIANGLES, 0, vbo.data.size());
-}
-
-size_t Mesh::size()
-{
-	return vbo.data.size();
+	unbind();
 }

@@ -1,29 +1,28 @@
 #pragma once
 
-#include "RenderUtil.hpp"
+#include <vector>
 
+#include "RenderUtil.hpp"
+#include "VertexLayout.hpp"
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
-#include "VertexLayout.hpp"
 
-#include "Shader.hpp"
-
-class Mesh
-{
+struct Mesh {
 public:
-	Mesh(std::vector<Vert> verts, std::vector<int> layout, Shader shader);
+	Mesh();
+	Mesh(std::vector<Vert> buffer, VertexLayout layout);
 	~Mesh();
 
 	void bind();
 	void unbind();
+
 	void upload();
-	void render();
 
-	size_t size();
-
+	std::vector<Vert> buffer;
 	VertexArray vao;
 	VertexBuffer vbo;
 	VertexLayout layout;
 
-	Shader shader;
+protected:
+private:
 };

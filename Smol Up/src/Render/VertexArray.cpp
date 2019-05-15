@@ -19,6 +19,7 @@ VertexArray::~VertexArray()
 void VertexArray::bind()
 {
 	glBindVertexArray(id);
+	gl_errors();
 }
 
 void VertexArray::unbind()
