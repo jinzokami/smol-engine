@@ -7,6 +7,7 @@ VertexLayout::VertexLayout()
 VertexLayout::VertexLayout(std::vector<int> attribs)
 {
 	this->attribs = attribs;
+	bind();
 }
 
 VertexLayout::~VertexLayout()

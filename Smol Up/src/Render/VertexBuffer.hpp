@@ -19,6 +19,9 @@ public:
 	void upload();
 
 	GLuint id = 0;
+	int vert_count;
 	std::vector<Vert> data;
+
+	int size();
 };
 

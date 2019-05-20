@@ -1,6 +1,8 @@
 #include "Texture.hpp"
 #include "stdio.h"
 
+//WARNING: NO DESTRUCTOR. MEMORY LEAK!
+
 Texture::Texture()
 {
 	construct("res/texture/error.bmp");
@@ -18,7 +20,7 @@ Texture::Texture(const char * path)
 
 Texture::~Texture()
 {
-	glDeleteTextures(1, &id);
+	//glDeleteTextures(1, &id);
 }
 
 void Texture::construct(Image img)

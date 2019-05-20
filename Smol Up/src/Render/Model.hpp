@@ -5,7 +5,7 @@
 
 struct Model {
 public:
-	Model(Mesh mesh, Material material);
+	Model(Mesh &mesh, Material material);
 	~Model();
 
 	void bind();

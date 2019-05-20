@@ -9,7 +9,6 @@ public:
 	~VertexArray();
 
 	void bind();
-	void unbind();
 
 	GLuint id = 0;
 };

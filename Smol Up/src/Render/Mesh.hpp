@@ -11,15 +11,18 @@ struct Mesh {
 public:
 	Mesh();
 	Mesh(std::vector<Vert> buffer, VertexLayout layout);
+	Mesh(std::vector<Vert> buffer, std::vector<int> layout_info);
+	Mesh(const char* mesh_file, std::vector<int> layout_info);
 	~Mesh();
 
 	void bind();
 
 	void upload();
 
-	std::vector<Vert> buffer;
+	//std::vector<Vert> buffer; //procmesh object
+	VertexArray vao;
 	VertexBuffer vbo;
-	VertexLayout layout;
+	VertexLayout vlo;
 
 protected:
 private:

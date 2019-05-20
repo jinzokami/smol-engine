@@ -4,15 +4,16 @@ Mesh::Mesh()
 {
 }
 
-Mesh::Mesh(std::vector<Vert> buffer, VertexLayout layout)
+Mesh::Mesh(std::vector<Vert> buffer, VertexLayout layout) : vao(), vbo(VertexBuffer(buffer)), vlo(layout)
 {
-	this->buffer = buffer;
-	this->layout = layout;
-	
-	vbo = VertexBuffer(this->buffer);
-	vbo.bind();
+}
 
-	this->layout.bind();
+Mesh::Mesh(std::vector<Vert> buffer, std::vector<int> layout_info) : vao(), vbo(VertexBuffer(buffer)), vlo(layout_info)
+{
+}
+
+Mesh::Mesh(const char * mesh_file, std::vector<int> layout_info) : vao(), vbo(VertexBuffer(mesh_file)), vlo(layout_info)
+{
 }
 
 Mesh::~Mesh()
@@ -21,8 +22,7 @@ Mesh::~Mesh()
 
 void Mesh::bind()
 {
-	vbo.bind();
-	layout.bind();
+	vao.bind();
 }
 
 void Mesh::upload()

@@ -1,9 +1,7 @@
 #include "Model.hpp"
 
-Model::Model(Mesh mesh, Material material)
+Model::Model(Mesh &mesh, Material material) : mesh(mesh), material(material)
 {
-	this->mesh = mesh;
-	this->material = material;
 }
 
 Model::~Model()
