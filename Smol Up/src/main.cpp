@@ -1,19 +1,25 @@
+//add/remove a '/' to the start of the line to add/remove all this code easily.
+/*
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "includes.hpp"
 
 static const float TICK_LENGTH = 1.0f / 100.0f;
 
+
 void error_callback(int error, const char* desc)
 {
 	fprintf(stderr, "Error: %s\n", desc);
 }
 
+//WARNING: EVERYTHING BROKE AGAIN.
 //TODO: add in keyboard input and polling
 //TODO: Start work on the entity system and figure out wha kind of game we'll make with this.
 //TODO: Start standardizing uniforms, timers, texutres, matrices
 //TODO: Memory leak from Image loading, pls fix
 //TODO: VertexArrays broke at bind?
+
+
 int main()
 {
 	glfwSetErrorCallback(error_callback);
@@ -26,7 +32,8 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
-	//VertexArray vao;
+	VertexArray vao;
+	vao.bind();
 
 	//mesh setup
 	std::vector<Vert> buffer;
@@ -72,6 +79,7 @@ int main()
 	Camera camera(0, 0, -2, 0, 0, 0);
 
 	glClearColor(0, 0, 0, 1);
+	gl_errors();
 	while (!window.should_close())
 	{
 		then = now;
@@ -99,9 +107,10 @@ int main()
 
 		
 		//vbo.unbind();
+		gl_errors();
 		glDrawArrays(GL_TRIANGLES, 0, buffer.size());
-		model.unbind();
 
+		
 		window.show();
 
 		glfwPollEvents();
@@ -111,3 +120,4 @@ int main()
 	
 	return 0;
 }
+//*/

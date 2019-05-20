@@ -13,7 +13,6 @@ public:
 	void upload();
 
 	void bind(int slot);
-	void unbind();
 
 	Pixel get_pixel(u32 x, u32 y);
 	void set_pixel(u32 x, u32 y, u8 r, u8 g, u8 b);

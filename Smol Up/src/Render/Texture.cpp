@@ -73,32 +73,9 @@ void Texture::upload()
 //bind or rebind a texture
 void Texture::bind(int slot)
 {
-	//we don't want the same texture bound to two different slots (or do we?)
-	if (bound_slot != -1)
-	{
-		unbind();
-	}
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, id);
 	bound_slot = slot;
-}
-
-void Texture::unbind()
-{
-	if (bound_slot != -1)
-	{
-		glActiveTexture(GL_TEXTURE0 + bound_slot);
-
-		//make sure this texture is actually bound before unbinding anything.
-		int bound;
-		glGetIntegerv(GL_TEXTURE_2D, &bound);
-
-		if (bound == id)
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-		//regardless of whether or not it was actually bound, it still needs to know it is not bound anymore
-		bound_slot = -1;
-	}
 }
 
 Pixel Texture::get_pixel(u32 x, u32 y)

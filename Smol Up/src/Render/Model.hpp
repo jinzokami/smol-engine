@@ -9,7 +9,6 @@ public:
 	~Model();
 
 	void bind();
-	void unbind();
 
 	Mesh mesh;
 	Material material;

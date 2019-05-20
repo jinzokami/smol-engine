@@ -14,12 +14,10 @@ public:
 	~Mesh();
 
 	void bind();
-	void unbind();
 
 	void upload();
 
 	std::vector<Vert> buffer;
-	VertexArray vao;
 	VertexBuffer vbo;
 	VertexLayout layout;
 

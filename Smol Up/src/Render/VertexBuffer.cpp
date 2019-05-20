@@ -12,6 +12,13 @@ VertexBuffer::VertexBuffer(std::vector<Vert> verts)
 	upload();
 }
 
+VertexBuffer::VertexBuffer(const char * filename)
+{
+	parse_obj(filename, data);
+	glGenBuffers(1, &id);
+	upload();
+}
+
 VertexBuffer::~VertexBuffer()
 {
 	if (id != 0)
@@ -21,11 +28,6 @@ VertexBuffer::~VertexBuffer()
 void VertexBuffer::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, id);
-}
-
-void VertexBuffer::unbind()
-{
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void VertexBuffer::upload()
@@ -39,6 +41,5 @@ void VertexBuffer::upload()
 			return;
 		}
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vert)*data.size(), &data[0], GL_STATIC_DRAW);
-		unbind();
 	}
 }

@@ -30,11 +30,3 @@ void VertexLayout::bind()
 		off += attribs[i];
 	}
 }
-
-void VertexLayout::unbind()
-{
-	for (int i = 0; i < attribs.size(); i++)
-	{
-		glDisableVertexAttribArray(i);
-	}
-}

@@ -49,3 +49,30 @@ Shader manager
  a shader manager will keep track of compiled shaders and avoid recompilation of already extant shaders.
  underlying structure is an unordered_map, the key is the file name of the shader files, without directory or file extension: for example, "basic" instead of "res/basic.vert" and "res/basic.frag"
  shader files will then have to share filenames and the only distinguishing feature between them would be file extensions: "vert", "frag", "geom", "tess", "comp"
+
+VBOs
+ until now, I have been using multiple VBOs to define each object for rendering. 
+ This requires (as far as I can tell) multiple VAOs. 
+ switching VAOs is costly in the long run and complex.
+ a much better solution is putting together everything in one VBO. 
+ obviously, this means all objects in that VBO are rendered exactly the same way.
+ Mesh objects will no longer store their vertices, that functionality will be transferred to a new ProcMesh object for the sake of simplicity.
+ when Mesh objects are created, their vertices are sent to the corresponding buffer on the GPU, we'll have to learn how to manage that memory.
+ Meshes will then store their vbo id, their start position in said vbo, and their vertex count. that's it.
+
+ the plan:
+  preallocate some space on the gpu (but still support growing the preallocated space)
+  when a mesh is created, send the vertices to the preallocated vbo and figure out the start position of these.
+  idea: keep a list of the start and end offsets for each mesh in the vbo, when the vbo is reallocated, take that opportunity to defrag memory, otherwise do so when low on allocated memory.
+   when a mesh is destroyed, delete it's corresponding entry in the list, when reorganising memory, write over parts not on the list.
+  on draw, in glDrawArrays() pass in the start position and vertex count for the current mesh. done.
+  
+  considerations:
+   shaders need to be rebound as well, so it's best to sort by shader, to have all meshes with the same shader render one after the other.
+   textures also need to be rebound, so it's best to sort each shader by texture, to minimize texture rebinds.
+   this means textures, shaders, and vbos/vaos all need ids. luckily, all of these are assigned ids by opengl, so just sort by those.
+   sorting order is as follows, vbo, shader, texture1, texture2, texture3, etc.
+   this should minimize rebinds when a few assets are reused many times.
+
+VAOs
+ there will be a VAO for each kind of mesh, terrain, particle effects, decorations, objects. done.

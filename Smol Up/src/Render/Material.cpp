@@ -35,12 +35,3 @@ void Material::bind()
 		texture[i].bind(i);
 	}
 }
-
-void Material::unbind()
-{
-	shader.unbind();
-	for (int i = 0; i < 4; i++)
-	{
-		texture[i].unbind();
-	}
-}

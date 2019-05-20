@@ -8,11 +8,13 @@ class VertexBuffer
 {
 public:
 	VertexBuffer();
+	//load models from vertices
 	VertexBuffer(std::vector<Vert> verts);
+	//load models directly from files.
+	VertexBuffer(const char* filename);
 	~VertexBuffer();
 
 	void bind();
-	void unbind();
 
 	void upload();
 

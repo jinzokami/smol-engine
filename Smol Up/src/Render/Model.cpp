@@ -15,9 +15,3 @@ void Model::bind()
 	mesh.bind();
 	material.bind();
 }
-
-void Model::unbind()
-{
-	mesh.unbind();
-	material.unbind();
-}

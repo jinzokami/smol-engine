@@ -13,7 +13,6 @@ public:
 	~VertexLayout();
 
 	void bind();
-	void unbind();
 
 	std::vector<int> attribs;
 };

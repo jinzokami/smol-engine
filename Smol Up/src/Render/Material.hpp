@@ -11,7 +11,6 @@ public:
 	~Material();
 
 	void bind();
-	void unbind();
 
 	Shader shader;//eventually pointer
 	Texture texture[4];//eventually pointers

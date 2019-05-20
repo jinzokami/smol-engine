@@ -65,11 +65,6 @@ void Shader::bind()
 	glUseProgram(program);
 }
 
-void Shader::unbind()
-{
-	glUseProgram(0);
-}
-
 void Shader::attach(GLuint shader)
 {
 	glAttachShader(program, shader);

@@ -11,5 +11,5 @@ uniform sampler2D tex;
 
 void main()
 {
-	color = vec4(col, 0.5) * texture(tex, uv_frag);
+	color = texture(tex, uv_frag);
 }

@@ -12,7 +12,6 @@ public:
 	~Shader();
 
 	void bind();
-	void unbind();
 
 	void attach(GLuint shader);
 	void link();
