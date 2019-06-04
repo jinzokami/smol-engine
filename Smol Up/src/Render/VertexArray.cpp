@@ -11,10 +11,14 @@ VertexArray::VertexArray()
 
 VertexArray::~VertexArray()
 {
-	glDeleteVertexArrays(1, &id);
 }
 
 void VertexArray::bind()
 {
 	glBindVertexArray(id);
+}
+
+void VertexArray::clean()
+{
+	glDeleteVertexArrays(1, &id);
 }

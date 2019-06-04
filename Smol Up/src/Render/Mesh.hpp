@@ -19,6 +19,8 @@ public:
 
 	void upload();
 
+	void clean();
+
 	//std::vector<Vert> buffer; //procmesh object
 	VertexArray vao;
 	VertexBuffer vbo;

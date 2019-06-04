@@ -21,8 +21,7 @@ VertexBuffer::VertexBuffer(const char * filename)
 
 VertexBuffer::~VertexBuffer()
 {
-	if (id != 0)
-		glDeleteBuffers(1, &id);
+	
 }
 
 void VertexBuffer::bind()
@@ -43,6 +42,12 @@ void VertexBuffer::upload()
 		vert_count = data.size();
 		glBufferData(GL_ARRAY_BUFFER, sizeof(Vert)*data.size(), &data[0], GL_STATIC_DRAW);
 	}
+}
+
+void VertexBuffer::clean()
+{
+	if (id != 0)
+		glDeleteBuffers(1, &id);
 }
 
 int VertexBuffer::size()

@@ -15,4 +15,5 @@ public:
 	void track(f32 x, f32 y, f32 z);//rotates camera to track position
 	
 	glm::mat4 get_matrix();
+	glm::mat4 perspective;
 };

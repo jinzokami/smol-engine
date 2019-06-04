@@ -1,0 +1,5 @@
+type=model
+mesh=sphere.obj
+texture1=error.bmp
+shaderv=basic.vert
+shaderf=basic.frag

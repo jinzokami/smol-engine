@@ -1,8 +1,6 @@
 #include "Texture.hpp"
 #include "stdio.h"
 
-//WARNING: NO DESTRUCTOR. MEMORY LEAK!
-
 Texture::Texture()
 {
 	construct("res/texture/error.bmp");
@@ -19,9 +17,7 @@ Texture::Texture(const char * path)
 }
 
 Texture::~Texture()
-{
-	//glDeleteTextures(1, &id);
-}
+{}
 
 void Texture::construct(Image img)
 {
@@ -64,7 +60,7 @@ void Texture::construct(const char * path)
 	glBindTexture(GL_TEXTURE_2D, 0);
 	image = { width, height, channels, (Pixel *)pixels };
 
-	printf("Texture Loaded: \"%s\"\n", path, width, height);
+	printf("Texture Loaded: \"%s\"\nWidth: %d\nHeight: %d\n", path, width, height);
 }
 
 void Texture::upload()

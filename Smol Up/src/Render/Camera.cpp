@@ -3,6 +3,7 @@
 Camera::Camera()
 {
 	transform = Transform(Position(0.0f, 0.0f, 0.0f), Rotation(0.0f, 0.0f, 0.0f));
+	perspective = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 }
 
 Camera::Camera(f32 x, f32 y, f32 z, f32 pitch, f32 yaw, f32 roll)

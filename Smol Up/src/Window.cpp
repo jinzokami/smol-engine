@@ -1,5 +1,18 @@
 #include "Window.hpp"
 
+Window::Window()
+{
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+
+	window = glfwCreateWindow(1280, 720, "Application", NULL, NULL);
+
+	glfwSetKeyCallback(window, key_callback);
+
+	glfwMakeContextCurrent(window);
+	glfwSwapInterval(1);
+}
+
 Window::Window(int width, int height, const char* title)
 {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -14,6 +27,10 @@ Window::Window(int width, int height, const char* title)
 }
 
 Window::~Window()
+{
+}
+
+void Window::clean()
 {
 	glfwDestroyWindow(window);
 }

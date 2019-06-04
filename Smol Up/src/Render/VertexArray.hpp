@@ -10,6 +10,8 @@ public:
 
 	void bind();
 
+	void clean();
+
 	GLuint id = 0;
 };
 

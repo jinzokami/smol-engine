@@ -133,7 +133,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.hpp" />
     <ClInclude Include="src\includes.hpp" />
+    <ClInclude Include="src\Math\Arith.hpp" />
     <ClInclude Include="src\Render\Material.hpp" />
     <ClInclude Include="src\Math\Rotor.hpp" />
     <ClInclude Include="src\Render\Mesh.hpp" />
@@ -157,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Math\Arith.cpp" />
     <ClCompile Include="src\Render\Material.cpp" />
     <ClCompile Include="src\Math\Rotor.cpp" />
     <ClCompile Include="src\Render\Mesh.cpp" />
@@ -177,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\asset\sphere.sa" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

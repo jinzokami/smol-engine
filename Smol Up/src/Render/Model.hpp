@@ -5,6 +5,7 @@
 
 struct Model {
 public:
+	Model();
 	Model(Mesh &mesh, Material material);
 	~Model();
 

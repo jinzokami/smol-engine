@@ -18,6 +18,8 @@ public:
 
 	void upload();
 
+	void clean();
+
 	GLuint id = 0;
 	int vert_count;
 	std::vector<Vert> data;

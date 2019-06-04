@@ -76,3 +76,21 @@ VBOs
 
 VAOs
  there will be a VAO for each kind of mesh, terrain, particle effects, decorations, objects. done.
+
+Levels
+ levels will be made of Cells. 
+ Cells are 3D units made of Subcells that are either solid or not. 
+ solid Subcells can have a height, they always start from the bottom of the cell.
+ visually, Subcells will be constructed from prefab parts made in either some custom tool or Blender.
+ there will be default visuals for Subcells as well.
+ the default visuals should represent the actual geometry that calculations use.
+ default visuals will be:
+ a flat cell with top=height.
+ a slanted cell in either the X +/- or Z +/- direction with the slant going from the lowest of either height or adjacent height, to the highest of the two.
+ walls will stretch from the top of the cell down to the bottom of the cell. this could and should be optimized.
+ pits with no Cells below are kill planes.
+ pits with Cells below deal damage proportional to the number of empty cells between player and floor.
+ if the player lands on a "soft" cell then no damage is taken.
+ player is 3.5 units tall.
+ player can walk over height differentials of <= 1 unit.
+ slants of difference > 1 should be prefab, player can't walk them, I don't care about them.
