@@ -136,7 +136,6 @@
     <ClInclude Include="src\Application.hpp" />
     <ClInclude Include="src\includes.hpp" />
     <ClInclude Include="src\Math\Arith.hpp" />
-    <ClInclude Include="src\Render\Material.hpp" />
     <ClInclude Include="src\Math\Rotor.hpp" />
     <ClInclude Include="src\Render\Mesh.hpp" />
     <ClInclude Include="src\Render\Model.hpp" />
@@ -160,7 +159,6 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Math\Arith.cpp" />
-    <ClCompile Include="src\Render\Material.cpp" />
     <ClCompile Include="src\Math\Rotor.cpp" />
     <ClCompile Include="src\Render\Mesh.cpp" />
     <ClCompile Include="src\Render\Model.cpp" />

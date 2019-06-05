@@ -31,22 +31,29 @@ Application::Application()
 Application::~Application()
 {}
 
-glm::mat4 model_mat, model_mat2;
-
 void Application::start()
 {
+	/*
 	std::vector<Texture> tex = { load_texture("res/texture/wave.png") };
-	model_mat = glm::mat4(1.0f);
+	glm::mat4 model_mat(1.0f);
 	Model model(load_mesh("res/mesh/cub.obj", { 3, 2, 3 }), Material(load_shader("res/shader/basic"), tex));
 	models.push_back(model);
+	mats.push_back(model_mat);
 
 	std::vector<Texture> tex2 = { load_texture("res/texture/planet.png") };
-	model_mat2 = glm::mat4(1.0f);
+	glm::mat4 model_mat2(1.0f);
 	model_mat2[3][0] = -5;
 	Model model2(load_mesh("res/mesh/sphere.obj", { 3, 2, 3 }), Material(load_shader("res/shader/basic"), tex2));
 	models.push_back(model2);
+	mats.push_back(model_mat2);
+	//*/
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	models.push_back(load_model("res/asset/sphere.sa"));
+	models.push_back(load_model("res/asset/sphere.sa"));
+	mats.push_back(glm::mat4(1.0f));
+	mats.push_back(glm::mat4(1.0f));
+	mats[1][3][0] = -5;
+	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
 void Application::run()
@@ -70,20 +77,20 @@ void Application::run()
 			tick_timer -= TICK_LENGTH;
 		}
 
+		//*
+		mats[0] = glm::rotate(mats[0], 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
+		mats[1] = glm::rotate(mats[1], -0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//*/
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		models[0].bind();
-		model_mat = glm::rotate(model_mat, 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
-		models[0].material.shader.uniform("model", model_mat, false);
-		models[0].material.shader.uniform("view", camera.get_matrix(), false);
-		models[0].material.shader.uniform("projection", camera.perspective, false);
-		glDrawArrays(GL_TRIANGLES, 0, models[0].mesh.vbo.size());
-
-		models[1].bind();
-		model_mat2 = glm::rotate(model_mat2, -0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
-		models[1].material.shader.uniform("model", model_mat2, false);
-		models[1].material.shader.uniform("view", camera.get_matrix(), false);
-		models[1].material.shader.uniform("projection", camera.perspective, false);
-		glDrawArrays(GL_TRIANGLES, 0, models[1].mesh.vbo.size());
+		
+		for (int i = 0; i < models.size(); i++)
+		{
+			models[i]->bind();
+			models[i]->shader->uniform("model", mats[i], false);
+			models[i]->shader->uniform("view", camera.get_matrix(), false);
+			models[i]->shader->uniform("projection", camera.perspective, false);
+			glDrawArrays(GL_TRIANGLES, 0, models[i]->mesh->vbo.size());
+		}
 
 		window.show();
 
@@ -96,47 +103,109 @@ void Application::stop()
 {
 }
 
-Mesh Application::load_mesh(const char* filename, std::vector<int> layout)
+//loads a mesh from disk and caches it
+Mesh* Application::load_mesh(const char* filename, std::vector<int> layout)
 {
 	if (mesh_ids.find(filename) != mesh_ids.end())
 	{
-		return mesh_ids[filename];
+		return &mesh_ids[filename];
 	}
 	Mesh mesh(filename, layout);
 	mesh_ids[filename] = mesh;
-	return mesh;
+	return &mesh_ids[filename];
 }
 
-Texture Application::load_texture(const char* filename)
+//loads a texture from disk and caches it
+Texture* Application::load_texture(const char* filename)
 {
 	if (texture_ids.find(filename) != texture_ids.end())
 	{
-		return texture_ids[filename];
+		return &texture_ids[filename];
 	}
 	Texture tex(filename);
 	texture_ids[filename] = tex;
-	return tex;
+	return &texture_ids[filename];
 }
 
-Shader Application::load_shader(const char* filename)
+//loads shader files from disk and chaches them
+Shader* Application::load_shader(const char* filename)
 {
 	if (shader_ids.find(filename) != shader_ids.end())
 	{
-		return shader_ids[filename];
+		return &shader_ids[filename];
 	}
 	std::string path(filename);
 	std::string path_vert(path); path_vert.append(".vert");
 	std::string path_frag(path); path_frag.append(".frag");
 	Shader shader(path_vert.c_str(), path_frag.c_str());
 	shader_ids[filename] = shader;
-	return shader;
+	return &shader_ids[filename];
+}
+
+//loads a model from an asset file
+Model* Application::load_model(const char* filename)
+{
+	if (model_ids.find(filename) != model_ids.end())
+	{
+		return &model_ids[filename];
+	}
+	std::string model_file = load_ascii(filename);
+	std::istringstream model_stream(model_file);
+
+	std::string mesh_path = "res/mesh/";
+	std::string shader_path = "res/shader/";
+	std::vector<std::string> texture_paths;
+
+	while (!model_stream.eof())
+	{
+		std::string line;
+		char type[256] = { 0 };
+		char name[256] = { 0 };
+		std::getline(model_stream, line);
+		sscanf(line.c_str(), "%s = %s", &type, &name);
+
+		if (strcmp(type, "type") == 0)//make sure we've got a model incoming
+		{
+			if (strcmp(name, "model") != 0)
+			{
+				return nullptr;
+			}
+		}
+		else if (strcmp(type, "mesh") == 0)//load the mesh
+		{
+			std::string nmstr(name);
+			mesh_path.append(nmstr);
+
+		}
+		else if (strcmp(type, "shader") == 0)//load the shader
+		{
+			std::string nmstr(name);
+			shader_path.append(nmstr);
+		}
+		else if (strncmp(type, "texture", 8) == 0)//load every present texture
+		{
+			std::string nmstr(name);
+			std::string path = "res/texture/";
+			texture_paths.push_back(path.append(nmstr));
+		}
+	}
+
+	std::vector<Texture*> textures;
+	for (int i = 0; i < texture_paths.size(); i++)
+	{
+		textures.push_back(load_texture(texture_paths[i].c_str()));
+	}
+	model_ids[filename] = Model(load_mesh(mesh_path.c_str(), { 3, 2, 3 }), load_shader(shader_path.c_str()), textures);
+	return &model_ids[filename];
 }
 
 //TODO: add keyboard input and polling
 //TODO: Start work on the entity system and figure out what kind of game we'll make with this.
 //TODO: Start standardizing uniforms, timers, textures, matrices
-//TODO: Memory leak from Image loading, pls fix
+//TODO: Video Memory leak from Image loading, pls fix
 //TODO: Video Memory leak from Texture loading, pls fix
+//TODO: Video Memory leak from mesh loading, pls fix
+//TODO: Texture loading broken from one line asset loader.
 int main()
 {
 	glfwSetErrorCallback(error_callback);

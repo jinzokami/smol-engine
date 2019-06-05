@@ -1,5 +1,4 @@
-type=model
-mesh=sphere.obj
-texture1=error.bmp
-shaderv=basic.vert
-shaderf=basic.frag
+type = model
+mesh = sphere.obj
+texture1 = planet.png
+shader = basic
