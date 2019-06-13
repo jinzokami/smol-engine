@@ -17,4 +17,6 @@ void Model::bind()
 	{
 		textures[i]->bind(i);
 	}
+
+	shader->uniform("alpha", alpha);
 }

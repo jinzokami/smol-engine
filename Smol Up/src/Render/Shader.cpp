@@ -5,24 +5,24 @@ Shader::Shader()
 	GLuint vertex = load_shader("res/shader/basic.vert", GL_VERTEX_SHADER);
 	GLuint fragment = load_shader("res/shader/basic.frag", GL_FRAGMENT_SHADER);
 
-	program = glCreateProgram();
-	glAttachShader(program, vertex);
-	glAttachShader(program, fragment);
-	glLinkProgram(program);
+	id = glCreateProgram();
+	glAttachShader(id, vertex);
+	glAttachShader(id, fragment);
+	glLinkProgram(id);
 
 	GLint isLinked = 0;
-	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+	glGetProgramiv(id, GL_LINK_STATUS, &isLinked);
 	if (isLinked == GL_FALSE)
 	{
 		GLint maxLength = 0;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+		glGetProgramiv(id, GL_INFO_LOG_LENGTH, &maxLength);
 
 		// The maxLength includes the NULL character
 		char infoLog[512];
-		glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+		glGetProgramInfoLog(id, maxLength, &maxLength, &infoLog[0]);
 
 		// The program is useless now. So delete it.
-		glDeleteProgram(program);
+		glDeleteProgram(id);
 
 		printf("%s", infoLog);
 	}
@@ -33,24 +33,24 @@ Shader::Shader(const char * vert_path, const char* frag_path)
 	GLuint vertex = load_shader(vert_path, GL_VERTEX_SHADER);
 	GLuint fragment = load_shader(frag_path, GL_FRAGMENT_SHADER);
 
-	program = glCreateProgram();
-	glAttachShader(program, vertex);
-	glAttachShader(program, fragment);
-	glLinkProgram(program);
+	id = glCreateProgram();
+	glAttachShader(id, vertex);
+	glAttachShader(id, fragment);
+	glLinkProgram(id);
 
 	GLint isLinked = 0;
-	glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+	glGetProgramiv(id, GL_LINK_STATUS, &isLinked);
 	if (isLinked == GL_FALSE)
 	{
 		GLint maxLength = 0;
-		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+		glGetProgramiv(id, GL_INFO_LOG_LENGTH, &maxLength);
 
 		// The maxLength includes the NULL character
 		char infoLog[512];
-		glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+		glGetProgramInfoLog(id, maxLength, &maxLength, &infoLog[0]);
 
 		// The program is useless now. So delete it.
-		glDeleteProgram(program);
+		glDeleteProgram(id);
 
 		printf("%s", infoLog);
 	}
@@ -60,19 +60,24 @@ Shader::~Shader()
 {
 }
 
+void Shader::clean()
+{
+	glDeleteProgram(id);
+}
+
 void Shader::bind()
 {
-	glUseProgram(program);
+	glUseProgram(id);
 }
 
 void Shader::attach(GLuint shader)
 {
-	glAttachShader(program, shader);
+	glAttachShader(id, shader);
 }
 
 void Shader::link()
 {
-	glLinkProgram(program);
+	glLinkProgram(id);
 }
 
 void Shader::uniform(int location, float x)
@@ -100,32 +105,49 @@ void Shader::uniform(int location, glm::mat4 mat, bool transpose)
 	glUniformMatrix4fv(location, 1, transpose, &mat[0][0]);
 }
 
+int Shader::uniform_location(const char * name)
+{
+	if (uniform_locations.find(name) != uniform_locations.end())
+	{
+		return uniform_locations[name];
+	}
+
+	int loc = glGetUniformLocation(id, name);
+	uniform_locations[name] = loc;
+	return loc;
+}
+
 void Shader::uniform(const char * uni, float x)
 {
-	GLint loc = glGetUniformLocation(program, uni);
-	uniform(loc, x);
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, x);
 }
 
 void Shader::uniform(const char * uni, float x, float y)
 {
-	GLint loc = glGetUniformLocation(program, uni);
-	uniform(loc, x, y);
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, x, y);
 }
 
 void Shader::uniform(const char * uni, float x, float y, float z)
 {
-	GLint loc = glGetUniformLocation(program, uni);
-	uniform(loc, x, y, z);
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, x, y, z);
 }
 
 void Shader::uniform(const char * uni, float x, float y, float z, float w)
 {
-	GLint loc = glGetUniformLocation(program, uni);
-	uniform(loc, x, y, z, w);
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, x, y, z, w);
 }
 
 void Shader::uniform(const char * uni, glm::mat4 mat, bool transpose)
 {
-	GLint loc = glGetUniformLocation(program, uni);
-	uniform(loc, mat, transpose);
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, mat, transpose);
 }

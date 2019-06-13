@@ -14,9 +14,11 @@ public:
 	void run(); //update render loop
 	void stop();
 
-	Window window;
+	void clean();
 
+	Window window;
 	Camera camera;
+	Input input;
 
 	Mesh* load_mesh(const char* filename, std::vector<int> layout);
 	Texture* load_texture(const char* filename);

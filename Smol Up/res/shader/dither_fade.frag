@@ -3,8 +3,7 @@
 in vec2 uv_frag;
 layout(location = 0) out vec4 color;
 
-uniform vec3 col;
-uniform float timer;
+uniform float alpha;
 
 uniform sampler2D tex;
 
@@ -26,24 +25,23 @@ float lerp(float t, float a, float b)
 //did you really have to put this off for a month?
 void main()
 {
-	float alpha = 1;//(sin(timer)+1.0)/2;
-	if (alpha > 0.975)
+	if (alpha > 0.995)
 	{
-		alpha = 1;
+		color = texture(tex, uv_frag);
 	}
-
-	if (alpha < 0.025)
-	{
-		alpha = 0;
-	}
-
-	//for whatever reason, the range of this function is: [-3/8, 12/8]
-	float c = lerp(alpha, -0.3751, 1.5);
-	//the much anticipated algorithm.
-	if (c + 2 * (thresh_map[int(gl_FragCoord.x) % 4][int(gl_FragCoord.y) % 4] - 0.5) < 0.5)
+	else if (alpha < 0.005)
 	{
 		discard;
 	}
-
-	color = vec4(col, 1.0) * texture(tex, uv_frag);
+	else
+	{
+		//for whatever reason, the range of this function is: [-3/8, 12/8]
+		float c = lerp(alpha, -0.3751, 1.5);
+		//the much anticipated algorithm. more of a function, really.
+		if (c + 2 * (thresh_map[int(gl_FragCoord.x) % 4][int(gl_FragCoord.y) % 4] - 0.5) < 0.5)
+		{
+			discard;
+		}
+		color = texture(tex, uv_frag);
+	}
 }

@@ -7,7 +7,7 @@ Window::Window()
 
 	window = glfwCreateWindow(1280, 720, "Application", NULL, NULL);
 
-	glfwSetKeyCallback(window, key_callback);
+	//glfwSetKeyCallback(window, key_callback);
 
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
@@ -50,6 +50,7 @@ GLFWwindow * Window::get_ref()
 	return window;
 }
 
+/*
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -57,3 +58,4 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	}
 }
+//*/

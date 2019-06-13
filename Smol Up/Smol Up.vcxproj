@@ -135,8 +135,11 @@
   <ItemGroup>
     <ClInclude Include="src\Application.hpp" />
     <ClInclude Include="src\includes.hpp" />
+    <ClInclude Include="src\Input.hpp" />
+    <ClInclude Include="src\Keyboard.hpp" />
     <ClInclude Include="src\Math\Arith.hpp" />
     <ClInclude Include="src\Math\Rotor.hpp" />
+    <ClInclude Include="src\Mouse.hpp" />
     <ClInclude Include="src\Render\Mesh.hpp" />
     <ClInclude Include="src\Render\Model.hpp" />
     <ClInclude Include="src\Render\Camera.hpp" />
@@ -158,8 +161,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Keyboard.cpp" />
     <ClCompile Include="src\Math\Arith.cpp" />
     <ClCompile Include="src\Math\Rotor.cpp" />
+    <ClCompile Include="src\Mouse.cpp" />
     <ClCompile Include="src\Render\Mesh.cpp" />
     <ClCompile Include="src\Render\Model.cpp" />
     <ClCompile Include="src\Render\Camera.cpp" />
@@ -180,6 +185,7 @@
     <Text Include="src\Notes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\asset\cube.sa" />
     <None Include="res\asset\sphere.sa" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

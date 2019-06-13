@@ -15,7 +15,9 @@ public:
 	Mesh* mesh;
 	Shader* shader;
 	std::vector<Texture*> textures;
-	//Transform
+
+	float alpha = 1.0f;
+
 protected:
 private:
 };

@@ -3,7 +3,6 @@
 #include "Application.hpp"
 
 static const float TICK_LENGTH = 1.0f / 100.0f;
-
 void error_callback(int error, const char* desc)
 {
 	fprintf(stderr, "Error: %s\n", desc);
@@ -14,9 +13,16 @@ void message_callback(GLenum source, GLenum type, GLuint id, GLenum severity, GL
 	fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n", (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 }
 
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
 Application::Application()
 {
+	glfwSetErrorCallback(error_callback);
+	if (!glfwInit())
+		exit(-1);
 	window = Window(1280, 720, "window.");
+
+	glfwSetKeyCallback(window.get_ref(), key_callback);
 
 	//maybe move this into window?
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -33,27 +39,12 @@ Application::~Application()
 
 void Application::start()
 {
-	/*
-	std::vector<Texture> tex = { load_texture("res/texture/wave.png") };
-	glm::mat4 model_mat(1.0f);
-	Model model(load_mesh("res/mesh/cub.obj", { 3, 2, 3 }), Material(load_shader("res/shader/basic"), tex));
-	models.push_back(model);
-	mats.push_back(model_mat);
-
-	std::vector<Texture> tex2 = { load_texture("res/texture/planet.png") };
-	glm::mat4 model_mat2(1.0f);
-	model_mat2[3][0] = -5;
-	Model model2(load_mesh("res/mesh/sphere.obj", { 3, 2, 3 }), Material(load_shader("res/shader/basic"), tex2));
-	models.push_back(model2);
-	mats.push_back(model_mat2);
-	//*/
-
 	models.push_back(load_model("res/asset/sphere.sa"));
-	models.push_back(load_model("res/asset/sphere.sa"));
+	models.push_back(load_model("res/asset/cube.sa"));
 	mats.push_back(glm::mat4(1.0f));
 	mats.push_back(glm::mat4(1.0f));
 	mats[1][3][0] = -5;
-	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void Application::run()
@@ -71,16 +62,32 @@ void Application::run()
 		float elapsed = std::chrono::duration_cast<std::chrono::duration<float>>(now - then).count();
 		timer += elapsed;
 		tick_timer += elapsed;
+		
+		input.keyboard.update();
+		input.mouse.update();
+
+		glfwPollEvents();
+
+		if (input.keyboard.is_down(GLFW_KEY_A))
+			glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		else
+			glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+
+		if (input.keyboard.is_pressed(GLFW_KEY_A))
+			printf("Space has pressed!\n");
+
+		if (input.keyboard.is_released(GLFW_KEY_A))
+			printf("Space has released!\n");
 
 		while (tick_timer >= TICK_LENGTH)
 		{
 			tick_timer -= TICK_LENGTH;
 		}
 
-		//*
 		mats[0] = glm::rotate(mats[0], 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
 		mats[1] = glm::rotate(mats[1], -0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//*/
+		models[1]->alpha = ((float)sin(timer)*0.5f)+0.5f;
+		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		for (int i = 0; i < models.size(); i++)
@@ -93,14 +100,37 @@ void Application::run()
 		}
 
 		window.show();
-
-		glfwPollEvents();
-		gl_errors();
 	}
 }
 
 void Application::stop()
 {
+	//clean up all the GPU stuf
+	clean();
+	glfwTerminate();
+}
+
+void Application::clean()
+{
+	for (auto elm : texture_ids)
+	{
+		elm.second.clean();
+	}
+	texture_ids.clear();
+
+	for (auto elm : mesh_ids)
+	{
+		elm.second.clean();
+	}
+	mesh_ids.clear();
+
+	for (auto elm : shader_ids)
+	{
+		elm.second.clean();
+	}
+	shader_ids.clear();
+
+	model_ids.clear();
 }
 
 //loads a mesh from disk and caches it
@@ -182,7 +212,7 @@ Model* Application::load_model(const char* filename)
 			std::string nmstr(name);
 			shader_path.append(nmstr);
 		}
-		else if (strncmp(type, "texture", 8) == 0)//load every present texture
+		else if (strncmp(type, "texture", 7) == 0)//load every present texture
 		{
 			std::string nmstr(name);
 			std::string path = "res/texture/";
@@ -199,24 +229,36 @@ Model* Application::load_model(const char* filename)
 	return &model_ids[filename];
 }
 
-//TODO: add keyboard input and polling
 //TODO: Start work on the entity system and figure out what kind of game we'll make with this.
 //TODO: Start standardizing uniforms, timers, textures, matrices
-//TODO: Video Memory leak from Image loading, pls fix
-//TODO: Video Memory leak from Texture loading, pls fix
-//TODO: Video Memory leak from mesh loading, pls fix
-//TODO: Texture loading broken from one line asset loader.
+//TODO: Finish Mouse input
+
+Application app;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+	else
+	{
+		if (action == GLFW_PRESS)
+		{
+			app.input.keyboard.press(key);
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			app.input.keyboard.release(key);
+		}
+	}
+}
+
 int main()
 {
-	glfwSetErrorCallback(error_callback);
-	if (!glfwInit())
-		return -1;
-	Application app;
 	app.start();
 	app.run();
 	app.stop();
 	
-	glfwTerminate();
-
 	return 0;
 }

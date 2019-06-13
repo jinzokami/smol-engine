@@ -10,6 +10,8 @@ public:
 	Texture(const char* path);
 	~Texture();
 
+	void clean();
+
 	void upload();
 
 	void bind(int slot);

@@ -94,3 +94,59 @@ Levels
  player is 3.5 units tall.
  player can walk over height differentials of <= 1 unit.
  slants of difference > 1 should be prefab, player can't walk them, I don't care about them.
+
+Mouse:
+ we may need to click things on screen with the mouse, so it's useful to know where the mouse is pointing.
+ for this, we need to cast a ray from the camera, through the spot on the screen the mouse was pointing at, to the scene.
+ to this end, we must calculate the distance from camera to screen.
+ the only information we have available to us, however, is the field of view, and the dimensions of the screen. this is enough.
+ Spoiler: the answer is cos(fov/2) / sin(fov/2) or 1/tan(fov2), but tan is scary, there be dragons.
+ explanation: 
+  the field of view used by the perspective matrix constructed by glm is the y-axis fov.
+  that means the angle of the isosceles triangle formed by the camera point and the "screen height" is whatever value the fov is. (given that the camera is centered on the screen plane, that is, on x = 0, y = 0)
+  since we have no idea how far away the camera is from the screen plane, we only have one angle on this isosceles triangle. that is not enough information.
+  so we split the triangle into two right triangles. the screen side is split in half, leaving the other two sides untouched. 
+  we now have two angles: the right angle and the angle we already had, the field of view, just this time, it's also been split in half.
+  we can use the two sides we have to solve for the remaining side, which comes out to 90 - fov/2 or PI/2 - fov/2 depending on whether you're working with radians or degrees (no one likes gradients)
+  from here we can use the sine rule to find the length of the side we care about, the side that goes from the middle of the screen to the camera.
+  the sine rule says that the ratio between a side and its opposing angle is the same for all sides in a triangle. 
+  so we have to solve for X in the following equation(A is the length of the side we already know): A/sin(fov/2) = X/sin(90 - fov/2)
+  having solved for X we get: X = sin(90 - fov/2) / sin(fov/2)
+  sin(90 - fov/2) = cos(fov/2) which means X = cos(fov/2) / sin(fov/2)
+  this is because sin(A-B) = sin(A) * cos(B) - cos(A) * sin(B) which in this case evaluates to: sin(90) * cos(fov/2) - cos(90) * sin(fov/2)
+  sin(90) = 1, cos(90) = 0 which cancels the sin(fov/2), leaving us with cos(fov/2)
+ the result is we now have the screen displacement relative to the camera, so we just use the position of the mouse on screen as the x and y coordinates and the screen displacement as the z, then we transform this "ray" to place it in the correct spot and orientation in "world space"
+
+"Spaces":
+ 3D renderers typically have multiple coordinate systems that objects live in, here are the important ones (though, depending on your code not necessarily the only ones)
+ Object (Model, Local) Space:
+  object space is where the vertices on a 3D model land relative to some point on the original model (usually the origin of the coordinate system used by the 3D modelling program used to create the model)
+  when an animation system moves vertices around, they do it in model space.
+  the model matrix brings object space to world space,
+
+ World Space:
+  world space is where models go when they are placed in the... world.
+  this is typically the coordinate system used by a physics engine, so this is the coordinate system we care about the most for non-rendering related things.
+  the view matrix brings world space to camera space.
+
+ Camera (Eye, View) Space:
+  camera space is the world from the perspective of the camera, every movement the camera makes, the opposite happens to everything else. it is the reference point here.
+  this has one other space directly associated with it, the projection space. 
+  projection space is what decides where each vertex goes as you get further from the camera. perspective projection moves points closer to the origin with distance, orthographic projections do nothing, and therefore have no sense of depth.
+  in most cases the projection is a perspective projection, though there are as many projections as there are uses for a 3D renderer.
+  the projection brings objects into the clip space
+
+ Clip Space:
+  this is where the "game" stuff becomes pure "renderer" stuff. in this space everything is oriented such that everything on screen is within some kind of box.
+  everything outside of this box isn't rendered. and if you can say with certainty that an object is not within this box, you can cull it entirely.
+
+ NDC:
+  Normalized Device Coordinates, basically the same thing as clip space but highly dependent on the render device. is the penultimate before the fragment, or pixel, shader.
+
+ Screen Space:
+  The final coordinate system, this one brings everything into actual screen coordinates, these are the "gl_FragCoord" variables in glsl, minus the depth, which is used for special effects, but real screens don't have depth (unless it's a 3DS, and that's debatable).
+
+to get the coordinate of a mouse click in world space we need to go from screen space (pixel coordinates) to NDC to Clip Space to View Space to World Space.
+Screen to NDC is simple enough: mouse.x/screen.width, mouse.y/screen.height
+NDC to Clip is: mouse_ndc.x * screen.width/screen.height (the aspect ratio), mouse_ndc.y * screen.height/screen.width (inverse aspect ratio)
+Clip to View: 

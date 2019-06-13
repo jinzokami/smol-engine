@@ -1,0 +1,4 @@
+type = model
+mesh = cub.obj
+texture1 = wave.png
+shader = dither_fade

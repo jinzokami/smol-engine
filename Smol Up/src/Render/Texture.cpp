@@ -19,6 +19,11 @@ Texture::Texture(const char * path)
 Texture::~Texture()
 {}
 
+void Texture::clean()
+{
+	glDeleteTextures(1, &id);
+}
+
 void Texture::construct(Image img)
 {
 	//generate and bind texture. save id

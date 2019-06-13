@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GLM\glm.hpp>
+#include <unordered_map>
 
 #include "RenderUtil.hpp"
 
@@ -10,6 +11,8 @@ public:
 	Shader();
 	Shader(const char * vert_path, const char* frag_path);
 	~Shader();
+
+	void clean();
 
 	void bind();
 
@@ -25,11 +28,14 @@ public:
 protected:
 
 private:
-	GLuint program = 0;
+	GLuint id = 0;
+
+	std::unordered_map<std::string, int> uniform_locations;
 
 	void uniform(int location, float x);
 	void uniform(int location, float x, float y);
 	void uniform(int location, float x, float y, float z);
 	void uniform(int location, float x, float y, float z, float w);
 	void uniform(int location, glm::mat4 mat, bool transpose);
+	int uniform_location(const char* name);
 };
