@@ -13,6 +13,7 @@ public:
 	Rotation(f32 pitch, f32 yaw, f32 roll) : pitch(pitch), yaw(yaw), roll(roll) {}
 
 	void rotate(f32 dx, f32 dy, f32 dz);
+	void set_rotation(f32 dx, f32 dy, f32 dz);
 
 	void add_yaw(f32 da);
 	void add_pitch(f32 da);

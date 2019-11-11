@@ -2,6 +2,10 @@
 
 #include "includes.hpp"
 
+#define APP_MESH_PATH "res/mesh/"
+#define APP_SHADER_PATH "res/shader/"
+#define APP_TEXTURE_PATH "res/texture/"
+
 class Application
 {
 public:

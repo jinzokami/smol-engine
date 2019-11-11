@@ -2,13 +2,16 @@
 
 void Mouse::update()
 {
+	//function should run BEFORE glfwPollEvents
 	for (auto elm : button_state)
 	{
 		button_state[elm.first].pressed = false;
 		button_state[elm.first].released = false;
 	}
 
-	//TODO: add mouse position, mouse position delta, and mousewheel delta
+	//TODO: add mousewheel delta
+	this->last_x = this->x;
+	this->last_y = this->y;
 }
 
 void Mouse::press(int button)
@@ -48,4 +51,22 @@ bool Mouse::is_released(int button)
 		return button_state[button].released;
 	}
 	return false;
+}
+
+void Mouse::get_position(float & x, float & y)
+{
+	x = this->x;
+	y = this->y;
+}
+
+void Mouse::get_delta(float & dx, float & dy)
+{
+	dx = this->x - this->last_x;
+	dy = this->y - this->last_y;
+}
+
+void Mouse::set_position(float x, float y)
+{
+	this->x = x;
+	this->y = y;
 }

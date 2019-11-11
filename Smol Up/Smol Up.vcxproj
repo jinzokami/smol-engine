@@ -185,8 +185,17 @@
     <Text Include="src\Notes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\asset\bunny.sa" />
     <None Include="res\asset\cube.sa" />
     <None Include="res\asset\sphere.sa" />
+    <None Include="res\shader\basic.frag" />
+    <None Include="res\shader\basic.vert" />
+    <None Include="res\shader\basic_no_uv.frag" />
+    <None Include="res\shader\basic_no_uv.vert" />
+    <None Include="res\shader\dither_fade.frag" />
+    <None Include="res\shader\dither_fade.vert" />
+    <None Include="res\shader\quad_render.frag" />
+    <None Include="res\shader\quad_render.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

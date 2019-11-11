@@ -1,9 +1,17 @@
 #version 450
 
+in vec3 pos_frag;
 in vec2 uv_frag;
+in vec3 normal_frag;
+
 layout(location = 0) out vec4 color;
 
 uniform float alpha;
+
+uniform vec3 color_frag;
+
+uniform vec3 sun_vec;
+uniform float ambient_light;
 
 uniform sampler2D tex;
 
@@ -21,8 +29,6 @@ float lerp(float t, float a, float b)
 	return (1-t)*a + t*b;
 }
 
-//see, chunky? give it a bit of effort and it's easy.
-//did you really have to put this off for a month?
 void main()
 {
 	if (alpha > 0.995)
@@ -37,11 +43,12 @@ void main()
 	{
 		//for whatever reason, the range of this function is: [-3/8, 12/8]
 		float c = lerp(alpha, -0.3751, 1.5);
-		//the much anticipated algorithm. more of a function, really.
 		if (c + 2 * (thresh_map[int(gl_FragCoord.x) % 4][int(gl_FragCoord.y) % 4] - 0.5) < 0.5)
 		{
 			discard;
 		}
-		color = texture(tex, uv_frag);
+		vec3 light = normalize(sun_vec - pos_frag);
+		light = (max(dot(normal_frag, light), 0.0) + ambient_light) * vec3(1.0, 1.0, 1.0);
+		color = texture(tex, uv_frag) * vec4(color_frag, 1.0) * vec4(light, 1.0);
 	}
 }

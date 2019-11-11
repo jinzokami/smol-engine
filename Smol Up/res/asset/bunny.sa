@@ -1,0 +1,3 @@
+type = model
+mesh = bunny.obj
+shader = basic_no_uv

@@ -165,5 +165,5 @@ struct Face
 
 //NOTE: exclusively for use with .obj files
 //std::vector<Vert> load_verts_from_file(const char* path);
-void parse_obj(const char* filename, std::vector<Vert> &buffer);
+void parse_obj(const char* filename, std::vector<Vert> &buffer, bool &has_uv, bool &has_normal);
 //#pragma pack (4)

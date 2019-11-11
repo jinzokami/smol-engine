@@ -6,9 +6,13 @@ Model::Model()
 Model::Model(Mesh* mesh, Shader* shader, std::vector<Texture*> textures) : mesh(mesh), shader(shader), textures(textures)
 {}
 
+Model::Model(Mesh * mesh, Shader * shader) : mesh(mesh), shader(shader)
+{}
+
 Model::~Model()
 {}
 
+//no textures bound if none present, write a way to bind default texture if needed
 void Model::bind()
 {
 	mesh->bind();
@@ -19,4 +23,5 @@ void Model::bind()
 	}
 
 	shader->uniform("alpha", alpha);
+	shader->uniform("color_frag", color);
 }

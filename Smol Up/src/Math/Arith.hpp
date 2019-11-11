@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#define PI 3.1415927
+
 namespace arith
 {
 	namespace rand {
@@ -22,4 +24,9 @@ namespace arith
 		uint64_t xorshift64star();//WARNING: a must never be zero.
 		uint64_t xorwow32();
 	};
+
+	inline float deg2rad(float deg)
+	{
+		return (deg*PI) / 180.0f;
+	}
 };

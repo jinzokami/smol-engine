@@ -1,6 +1,8 @@
 
 #include <unordered_map>
 
+#include <GLFW/glfw3.h>
+
 struct KeyState
 {
 	bool down, pressed, released;
@@ -25,3 +27,8 @@ public:
 
 	std::unordered_map<int, KeyState> key_state;
 };
+
+namespace kb
+{
+	std::string key_name(int key);
+}

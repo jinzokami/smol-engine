@@ -145,6 +145,27 @@ void Shader::uniform(const char * uni, float x, float y, float z, float w)
 		uniform(loc, x, y, z, w);
 }
 
+void Shader::uniform(const char * uni, Vec2 vec)
+{
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, vec.x, vec.y);
+}
+
+void Shader::uniform(const char * uni, Vec3 vec)
+{
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, vec.x, vec.y, vec.z);
+}
+
+void Shader::uniform(const char * uni, Vec4 vec)
+{
+	GLint loc = uniform_location(uni);
+	if (loc >= 0)
+		uniform(loc, vec.x, vec.y, vec.z, vec.w);
+}
+
 void Shader::uniform(const char * uni, glm::mat4 mat, bool transpose)
 {
 	GLint loc = uniform_location(uni);

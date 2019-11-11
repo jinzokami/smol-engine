@@ -14,7 +14,8 @@ VertexBuffer::VertexBuffer(std::vector<Vert> verts)
 
 VertexBuffer::VertexBuffer(const char * filename)
 {
-	parse_obj(filename, data);
+	bool uv, norm;
+	parse_obj(filename, data, uv, norm);
 	glGenBuffers(1, &id);
 	upload();
 }

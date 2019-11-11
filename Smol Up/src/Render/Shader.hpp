@@ -23,6 +23,9 @@ public:
 	void uniform(const char * uni, float x, float y);
 	void uniform(const char * uni, float x, float y, float z);
 	void uniform(const char * uni, float x, float y, float z, float w);
+	void uniform(const char * uni, Vec2 vec);
+	void uniform(const char * uni, Vec3 vec);
+	void uniform(const char * uni, Vec4 vec);
 	void uniform(const char * uni, glm::mat4 mat, bool transpose);
 
 protected:
