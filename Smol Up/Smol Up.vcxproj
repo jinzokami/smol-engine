@@ -133,19 +133,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Math\Quaternion.hpp" />
     <ClInclude Include="src\Application.hpp" />
     <ClInclude Include="src\includes.hpp" />
     <ClInclude Include="src\Input.hpp" />
     <ClInclude Include="src\Keyboard.hpp" />
     <ClInclude Include="src\Math\Arith.hpp" />
-    <ClInclude Include="src\Math\Rotor.hpp" />
+    <ClInclude Include="src\Math\ArithOps.hpp" />
     <ClInclude Include="src\Mouse.hpp" />
     <ClInclude Include="src\Render\Mesh.hpp" />
     <ClInclude Include="src\Render\Model.hpp" />
     <ClInclude Include="src\Render\Camera.hpp" />
-    <ClInclude Include="src\Math\Position.hpp" />
     <ClInclude Include="src\Render\RenderUtil.hpp" />
-    <ClInclude Include="src\Math\Rotation.hpp" />
     <ClInclude Include="src\Render\Shader.hpp" />
     <ClInclude Include="src\Render\Texture.hpp" />
     <ClInclude Include="src\Math\Transform.hpp" />
@@ -160,16 +159,14 @@
     <ClInclude Include="src\Math\Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Math\Quaternion.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Keyboard.cpp" />
     <ClCompile Include="src\Math\Arith.cpp" />
-    <ClCompile Include="src\Math\Rotor.cpp" />
     <ClCompile Include="src\Mouse.cpp" />
     <ClCompile Include="src\Render\Mesh.cpp" />
     <ClCompile Include="src\Render\Model.cpp" />
     <ClCompile Include="src\Render\Camera.cpp" />
-    <ClCompile Include="src\Math\Position.cpp" />
-    <ClCompile Include="src\Math\Rotation.cpp" />
     <ClCompile Include="src\Render\RenderUtil.cpp" />
     <ClCompile Include="src\Render\Shader.cpp" />
     <ClCompile Include="src\Render\Texture.cpp" />

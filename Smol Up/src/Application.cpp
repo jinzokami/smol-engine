@@ -1,6 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "Application.hpp"
+#include "Math/ArithOps.hpp"
 
 static const float TICK_LENGTH = 1.0f / 100.0f;
 void error_callback(int error, const char* desc)
@@ -55,7 +56,7 @@ void Application::start()
 	mats.push_back(glm::mat4(1.0f));
 	mats[1][3][0] = -5;
 	mats[2][3][0] = 5;
-	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 }
 
 void Application::run()
@@ -81,7 +82,38 @@ void Application::run()
 
 		float mdx, mdy;
 		input.mouse.get_delta(mdx, mdy);
-		camera.rotate(mdy/1000.0f, mdx/1000.0f, 0);//the sensitivity increases with a higher denom, set this programatically, also keep in mind these are rotations around the axes, x turns up and down, y turns left and right.
+
+		if (input.keyboard.is_down(GLFW_KEY_A))
+		{
+			camera.transform.position = camera.transform.position + camera.transform.get_left()*0.1;
+		}
+
+		if (input.keyboard.is_down(GLFW_KEY_D))
+		{
+			camera.transform.position = camera.transform.position + camera.transform.get_right()*0.1;
+		}
+
+		if (input.keyboard.is_down(GLFW_KEY_W))
+		{
+			camera.transform.position = camera.transform.position + camera.transform.get_forward()*0.1;
+		}
+
+		if (input.keyboard.is_down(GLFW_KEY_S))
+		{
+			camera.transform.position = camera.transform.position + camera.transform.get_backward()*0.1;
+		}
+
+		if (input.keyboard.is_down(GLFW_KEY_Q))
+		{
+			camera.transform.position = camera.transform.position + camera.transform.get_up()*0.1;
+		}
+
+		if (input.keyboard.is_down(GLFW_KEY_E))
+		{
+			camera.transform.position = camera.transform.position + camera.transform.get_down()*0.1;
+		}
+
+		camera.rotate(mdy/1000.0f, mdx/1000.0f, 0);//the sensitivity increases with a higher denom, set this programatically, also keep in mind these are rotations around the axes, x turns up and down, y turns left and right, z turns around the center of the screen.
 
 		while (tick_timer >= TICK_LENGTH)
 		{
@@ -91,8 +123,9 @@ void Application::run()
 		mats[0] = glm::rotate(mats[0], 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
 		mats[1] = glm::rotate(mats[1], -0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
 		mats[2] = glm::rotate(mats[2], 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
-		models[1]->alpha = ((float)sin(timer)*0.5f)+0.5f;
-		models[2]->color = { ((float)sin(timer)*0.5f) + 0.5f, ((float)cos(timer)*0.5f) + 0.5f, 1.0f };
+
+		models[1]->alpha = ((float)sin(timer) * 0.5f) + 0.5f;
+		models[2]->color = { ((float)sin(timer) * 0.5f) + 0.5f, ((float)sin(timer + (2 * PI / 3)) * 0.5f) + 0.5f, ((float)sin(timer + (2 * PI / 3) * 2) * 0.5f) + 0.5f };
 		
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -238,9 +271,22 @@ Model* Application::load_model(const char* filename)
 	return &model_ids[filename];
 }
 
-//TODO: Start work on the entity system and figure out what kind of game we'll make with this.
+//TODO: PRIORITY Test Vector and Quaternion, make sure they work
+//TODO: PRIORITY Make Matrix class
+//TODO: Quaternion-Matrix conversion
+//TODO: make Quaternion a template (only useful for 32 or 64 bit floats)
+//TODO: First Game: PS1-style 3d RPG Maker
+//TODO: Start work on the entity system
 //TODO: Start standardizing uniforms, timers, textures, matrices
-//TODO: Finish Mouse input
+//TODO: Start work on the sound system
+//TODO: Start work on the gui system
+//TODO: Start work on controller input
+//TODO: Start work on loading more substantial model files, obj won't be enough forever.
+//TODO: Start work on the physics system
+//TODO: Add a standard example shader that includes all the information that will be sent to the shaders and the preferred format of shaders.
+//TODO: Turn this into a library? or keep going in this direction?
+//TODO: put together a little demo of this.
+//TODO: Add text labels
 
 Application app; // was going to make this a GoF style singleton, but this was much easier. global was necessary for key_callback.
 

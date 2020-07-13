@@ -1,20 +1,27 @@
 #include <GLM\glm.hpp>
 #include <GLM\gtc\matrix_transform.hpp>
 
-#include "Position.hpp"
-#include "Rotation.hpp"
+#include "Vector.hpp"
+#include "Quaternion.hpp"
 
 class Transform
 {
 public:
-	Position position;
-	Rotation rotation;
+	vec3f position;
+	Quaternion orientation;
+
+	vec3f get_forward();
+	vec3f get_backward();
+	vec3f get_left();
+	vec3f get_right();
+	vec3f get_up();
+	vec3f get_down();
 
 	Transform();
-	Transform(Position position, Rotation rotation) : position(position), rotation(rotation) {}
+	Transform(vec3f position, Quaternion orientation) : position(position), orientation(orientation) {}
 
 	glm::mat4 get_matrix();
 
-	Position get_position();
-	Rotation get_rotation();
+	vec3f get_position();
+	Quaternion get_orientation();
 };

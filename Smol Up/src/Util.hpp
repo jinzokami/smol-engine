@@ -5,21 +5,7 @@
 
 #include <GLM\glm.hpp>
 
-//useful typedefs
-typedef char i8;
-typedef short i16;
-typedef int i32;
-typedef long i64;
-
-typedef unsigned char u8;
-typedef unsigned short u16;
-typedef unsigned int u32;
-typedef unsigned long u64;
-
-typedef float f32;
-typedef double f64;
-
-constexpr auto PI = 3.1415926535897;
+#include "Math\Arith.hpp"
 
 inline char* load_ascii(const char* path)
 {

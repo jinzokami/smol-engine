@@ -144,9 +144,43 @@ Mouse:
   Normalized Device Coordinates, basically the same thing as clip space but highly dependent on the render device. is the penultimate before the fragment, or pixel, shader.
 
  Screen Space:
-  The final coordinate system, this one brings everything into actual screen coordinates, these are the "gl_FragCoord" variables in glsl, minus the depth, which is used for special effects, but real screens don't have depth (unless it's a 3DS, and that's debatable).
+  The final coordinate system, this one brings everything into actual screen coordinates, these are the "gl_FragCoord" variables in glsl, minus the depth, which is used for special effects, but real screens don't have depth (unless it's a 3DS or an HMD, and that's debatable).
 
 to get the coordinate of a mouse click in world space we need to go from screen space (pixel coordinates) to NDC to Clip Space to View Space to World Space.
 Screen to NDC is simple enough: mouse.x/screen.width, mouse.y/screen.height
 NDC to Clip is: mouse_ndc.x * screen.width/screen.height (the aspect ratio), mouse_ndc.y * screen.height/screen.width (inverse aspect ratio)
-Clip to View: 
+Clip to View: ***** FINISH
+
+
+We need to start thinking about how to setup the level editor, that is if anything is ever going to get done with this engine.
+before we have an editor we need something to edit, so we can start with the files the editor is going to make.
+the file needs to have complete information about entity placement, so the first and obvious choice is an ascii file full of entity names and coordinates for each level.
+the scene or environment also needs to have its information stored, an environment consists of level geometry, the textures, static objects, a skybox, anything that has no interaction aside from maybe collision, essentially.
+the level also needs music, so save a list of tracks in the level file. (also work on getting audio up and running)
+the environment will be a single obj file minus the skybox, which only needs to be a texture.
+while we're on the subject, the environment obj will have two objects, the model and the collision mesh, when loaded they will both be stored separately. (a new function will need to be written)
+the level editor should be able to be built using the self-same engine, the flow will be simple for now: add environment, drag entities in.
+an environment should be required before anything else is added, as they will be anchored to points on the environment. (spot on the environment the mouse was on when the drag ended)
+
+To Add: a way to detect where the mouse is pointing, a way to load entities from disk.
+
+Entities: I want an Entity-Component-System style for this game, e.g. entities that are rendered have a Renderer component attached that holds all the required renderer information (the model class, essentially), the Renderer system then takes all that information (stored in an array, referenced by an id which represents the entity) and renderes it to the screen.
+Render system: render component stores vao, vbo, layout, shader, and texture information
+Sound system: sound component stores all sounds to be played, or references to streams, currently playing sound, and the sound player status (how far and the state machine)
+Animation system: holds bone and pose information detailed above, ties into render system and sound system
+Physics system: physics component stores rigid body information: weight, friction, bounciness, velocity, angular velocity
+Collision system: collision mesh(or shape, if simple), ties in to physics engine
+all components are tied together by a central game entity, this entity is the components' connection to each other and the engine itself
+more specific systems that aren't quite as universal as the above will have a system template and will all be treated the "same" e.g. a generic system will have start update render and end function, these will be executed without regards to what they do, so more substantial or fundemental systems need to become their own systems.
+generic systems will be the ones to have access to the input object through references and functions like keypressed(button) and keyreleased(button)
+we also need event listeners, objects that register components and cause them to execute a function when triggered.
+
+loading entities from disk:
+if we wanted, we could define enemies as only assets by having their programming be external scripts, but that's more complexity and as much as i like lua embedding, it seems like a pain.
+instead, we could have each game entity as its own source file and we would register a copy of each by name in a registry of some description, these entities could then have a clone function and we could instantiate each by simply cloning from the registered entity identified by name.
+
+the gui will also need to tap into values in the game, maybe have a place in the application object to store information like "last enemy hit" or "target hp" or "player hp"
+another idea: have an object that stores string messages like "enemyname damaged damageamount" and have the gui system parse each of those events to update itself.
+
+WE REALLY NEED TO START WORKING ON SOUND OR ENTITIES EITHER OF THESE TWO SHOULD BE THE NEXT PRIORITY NOW THAT WE HAVE RENDERING PRETTY GOOD.
+rendering is okay for now, but obviously we're eventually going to have to add things like instancing and frustum culling and transform feedback. or not, who knows?
