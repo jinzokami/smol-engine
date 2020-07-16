@@ -1,5 +1,6 @@
+#pragma once
+
 #include <GLM\glm.hpp>
-#include <GLM\gtc\matrix_transform.hpp>
 
 #include "Vector.hpp"
 #include "Quaternion.hpp"
@@ -17,7 +18,7 @@ public:
 	vec3f get_up();
 	vec3f get_down();
 
-	Transform();
+	Transform() : position(vec3f(0.0f, 0.0f, 0.0f)), orientation(orientation) {}
 	Transform(vec3f position, Quaternion orientation) : position(position), orientation(orientation) {}
 
 	glm::mat4 get_matrix();

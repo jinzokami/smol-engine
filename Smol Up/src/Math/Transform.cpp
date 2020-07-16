@@ -37,14 +37,10 @@ vec3f Transform::get_down()
 	return down;
 }
 
-Transform::Transform()
-{
-	this->position = vec3f(0, 0, 0);
-}
-
 glm::mat4 Transform::get_matrix()
 {
 	//TODO: this
+	return glm::mat4(1.0);
 }
 
 vec3f Transform::get_position()

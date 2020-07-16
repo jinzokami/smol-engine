@@ -14,14 +14,15 @@
 #include <GLM/glm.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 
+#include "typedefs.hpp"
+
 #include "Window.hpp"
 
-#include "Render/Shader.hpp"
-#include "Render/Texture.hpp"
-#include "Render/Camera.hpp"
-#include "Render/VertexBuffer.hpp"
-#include "Render/VertexArray.hpp"
-#include "Render/VertexLayout.hpp"
-#include "Render/Model.hpp"
-#include "Render/Mesh.hpp"
+#include "Render/GraphicsIncludes.hpp"
+
 #include "Input.hpp"
+
+#include "Math/Arith.hpp"
+#include "Math/Vector.hpp"
+#include "Math/Quaternion.hpp"
+#include "Math/Transform.hpp"

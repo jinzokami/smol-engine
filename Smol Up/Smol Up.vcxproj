@@ -139,8 +139,8 @@
     <ClInclude Include="src\Input.hpp" />
     <ClInclude Include="src\Keyboard.hpp" />
     <ClInclude Include="src\Math\Arith.hpp" />
-    <ClInclude Include="src\Math\ArithOps.hpp" />
     <ClInclude Include="src\Mouse.hpp" />
+    <ClInclude Include="src\Render\GraphicsIncludes.hpp" />
     <ClInclude Include="src\Render\Mesh.hpp" />
     <ClInclude Include="src\Render\Model.hpp" />
     <ClInclude Include="src\Render\Camera.hpp" />
@@ -148,6 +148,7 @@
     <ClInclude Include="src\Render\Shader.hpp" />
     <ClInclude Include="src\Render\Texture.hpp" />
     <ClInclude Include="src\Math\Transform.hpp" />
+    <ClInclude Include="src\typedefs.hpp" />
     <ClInclude Include="src\Util.hpp" />
     <ClInclude Include="src\Render\VertexLayout.hpp" />
     <ClInclude Include="src\Window.hpp" />

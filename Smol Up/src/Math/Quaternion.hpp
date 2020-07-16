@@ -1,7 +1,11 @@
 #pragma once
 
-#include "../Util.hpp"
+#include <cmath>
+
 #include "Arith.hpp"
+
+#include "Vector.hpp"
+#include "../typedefs.hpp"
 
 class Quaternion
 {

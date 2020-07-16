@@ -1,7 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "Application.hpp"
-#include "Math/ArithOps.hpp"
 
 static const float TICK_LENGTH = 1.0f / 100.0f;
 void error_callback(int error, const char* desc)

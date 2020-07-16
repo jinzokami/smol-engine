@@ -1,4 +1,8 @@
-#include "../Util.hpp"
+#pragma once
+
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+
 #include "../Math/Transform.hpp"
 #include "../Math/Arith.hpp"
 

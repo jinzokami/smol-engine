@@ -137,10 +137,13 @@
     <ClInclude Include="src\Mouse.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Math\ArithOps.hpp">
+    <ClInclude Include="src\Math\Quaternion.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Math\Quaternion.hpp">
+    <ClInclude Include="src\Render\GraphicsIncludes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\typedefs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
